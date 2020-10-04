@@ -59,9 +59,15 @@ const modals = () => {
     makeModal(".phone_link",".popup",".popup_close")
 
     //6 Задание из ТЗ
-    makeModal(".popup_calc_btn",".popup_calc",".popup_calc_close",false)
+    makeModal(".popup_calc_btn",".popup_calc",".popup_calc_close")
 
     // 10 Задание из ТЗ
     // showModalByTime(".popup",60000)
 }
 export default modals
+
+
+
+
+
+

@@ -19,8 +19,6 @@ const tabs = () => {
         const tabContent = document.querySelectorAll(tabContentSelector);
         const links = document.querySelectorAll(linkSelector)
 
-        console.log(tabs,tabContent,links)
-
         tabs.forEach((tab,tabI) => {
             tab.addEventListener("click",() =>{ 
                     showCurrentTab(tabContent,tabI,links,activeClassName,display)

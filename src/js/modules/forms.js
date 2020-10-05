@@ -1,7 +1,17 @@
-const forms = () => {
+import {closeAllPopModals} from "./modals";
+
+const forms = (state) => {
 
     function makeServerData(form){
         let formData = new FormData(form);
+
+        if (form.getAttribute("data-calc")){
+            for (let key in state){
+                formData.append(key,state[key])
+            }
+            state = {}
+        }
+
         let data = {};
         
         formData.forEach((elem,key) => {
@@ -19,11 +29,15 @@ const forms = () => {
         inputs.forEach(input => {
             input.value = "";
         })
-        setTimeout(() => formMessage.remove(),2000)
+        setTimeout(() => {
+            formMessage.remove()
+            closeAllPopModals()
+        },2000)
     }
 
-   async function sendData(data) {
-        const request = await fetch("http://localhost:3020/orders", {
+   async function sendData(data,postType) {
+        const url = "http://localhost:3020/"+postType
+        const request = await fetch(url, {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"
@@ -70,13 +84,19 @@ const forms = () => {
         form.addEventListener("submit",(event) => {
             event.preventDefault();
             const data = makeServerData(form);
+            let postType = "clients"
+
+            if (form.getAttribute("data-calc")){
+                postType = "orders"
+            }
 
             const message = document.createElement("p");
             message.innerHTML = makeMessage(messages.loading,"blue")
 
             form.append(message)
             
-            sendData(data)
+
+            sendData(data,postType)
             .then((res) => {
                 console.log(res)
                 message.innerHTML = makeMessage(messages.succsess)
